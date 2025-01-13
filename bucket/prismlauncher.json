@@ -11,8 +11,12 @@
     ],
     "architecture": {
         "64bit": {
-            "url": "https://github.com/PrismLauncher/PrismLauncher/releases/download/9.2/PrismLauncher-Windows-MSVC-Portable-9.2.zip",
-            "hash": "82d485650049ff0ef834d08621292b0d1439ce433d43c130fd60686f9caad82b"
+            "url": "https://github.com/PrismLauncher/PrismLauncher/releases/download/9.2/PrismLauncher-Windows-MinGW-w64-Portable-9.2.zip",
+            "hash": "a81d748e23c404f598844fe83fa8e115b54fa241d5823cdb640cc9035d3a4c97"
+        },
+        "arm64": {
+            "url": "https://github.com/PrismLauncher/PrismLauncher/releases/download/9.2/PrismLauncher-Windows-MSVC-arm64-Portable-9.2.zip",
+            "hash": "7f89eb7899a247efcc3f58aede04cdb02fc556d65dd41e144ce9d6b1f9905418"
         }
     },
     "suggest": {
@@ -80,7 +84,10 @@
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": "https://github.com/PrismLauncher/PrismLauncher/releases/download/$version/PrismLauncher-Windows-MSVC-Portable-$version.zip"
+                "url": "https://github.com/PrismLauncher/PrismLauncher/releases/download/$version/PrismLauncher-Windows-MinGW-w64-Portable-$version.zip"
+            },
+            "arm64": {
+                "url": "https://github.com/PrismLauncher/PrismLauncher/releases/download/$version/PrismLauncher-Windows-MSVC-arm64-Portable-$version.zip"
             }
         }
     }
