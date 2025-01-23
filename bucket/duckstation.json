@@ -48,7 +48,8 @@
                     "duckstation"
                 ]
             ]
-        },
+        }
+    },
     "installer": {
         "script": [
             "New-item \"$dir\\portable.txt\" -ItemType File | Out-Null",
