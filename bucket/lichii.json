@@ -1,0 +1,58 @@
+{
+    "version": "228",
+    "description": "Open source Nintendo Switch 2 emulator (forked from Eglantine)",
+    "homepage": "https://github.com/zortos293/Lichii",
+    "license": {
+        "identifier": "GPL-3.0-or-later",
+        "url": "https://github.com/zortos293/Lichii/blob/nx2/LICENSE.txt"
+    },
+    "notes": [
+        "ATTENTION: Lichii needs decryption keys to run games, and firmware for some of them.",
+        "Learn more at https://github.com/zortos293/Lichii/blob/nx2/docs/user/QuickStart.md"
+    ],
+    "suggest": {
+        "Microsoft Visual C++ Runtime 2022": "extras/vcredist2022"
+    },
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/zortos293/Lichii/releases/download/build-228/lichii-windows-x86_64-pgo.zip",
+            "hash": "0f57a7f6a40944e155c2bde12aed536e69c4903afa41bd8ebe2744ab8128ac04"
+        }
+    },
+    "pre_install": [
+        "if (!(Test-Path \"$persist_dir\")) {",
+        "   New-item \"$persist_dir\" -ItemType Directory | Out-Null",
+        "   New-item \"$persist_dir\\user\" -ItemType Directory | Out-Null",
+        "   if (Test-Path \"$env:APPDATA\\lichii\") {",
+        "       Write-host \"Migrating AppData...\" -ForegroundColor yellow",
+        "       Copy-Item -Path \"$env:APPDATA\\lichii\\*\" -Destination \"$persist_dir\\user\" -Recurse",
+        "       Remove-Item -Path \"$env:APPDATA\\lichii\" -Recurse -Force",
+        "   }",
+        "   if (Test-Path \"$persist_dir\\user\\config\\qt-config.ini\") {",
+        "       (Get-Content -Path \"$persist_dir\\user\\config\\qt-config.ini\" -Encoding UTF8).Replace('check_for_updates\\default=true', 'check_for_updates\\default=false').Replace('check_for_updates=true', 'check_for_updates=false') | Set-Content -Path \"$persist_dir\\user\\config\\qt-config.ini\" -Encoding UTF8",
+        "   } else {",
+        "       New-Item \"$persist_dir\\user\\config\" -ItemType Directory -Force | Out-Null",
+        "       '[UI]', 'check_for_updates\\default=false', 'check_for_updates=false' | Set-Content -Path \"$persist_dir\\user\\config\\qt-config.ini\"",
+        "   }",
+        "}"
+    ],
+    "bin": "lichii.exe",
+    "shortcuts": [
+        [
+            "lichii.exe",
+            "Lichii"
+        ]
+    ],
+    "persist": "user",
+    "checkver": {
+        "github": "https://api.github.com/repos/zortos293/Lichii/releases/latest",
+        "regex": "build-(\\d+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/zortos293/Lichii/releases/download/build-$version/lichii-windows-x86_64-pgo.zip"
+            }
+        }
+    }
+}
