@@ -1,0 +1,55 @@
+{
+    "version": "0.1.0-rc4",
+    "description": "Open source Nintendo Switch 2 emulator (forked from Eden)",
+    "homepage": "https://eglantine-emu.org/",
+    "license": {
+        "identifier": "GPL-3.0-or-later",
+        "url": "https://github.com/Eglantine-Community/Eglantine/blob/nx2/LICENSE.txt"
+    },
+    "notes": [
+        "ATTENTION: Eglantine needs decryption keys to run games, and firmware for some of them.",
+        "Learn more at https://docs.eglantine-emu.org/user/QuickStart"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Eglantine-Community/Eglantine/releases/download/v0.1.0-rc4/eglantine-windows-x86_64-pgo.zip",
+            "hash": "c15e0edce723cbbe4d8d3d02604cfc9fc037ec41af3531979cae16c80abec473"
+        }
+    },
+    "pre_install": [
+        "if (!(Test-Path \"$persist_dir\")) {",
+        "   New-item \"$persist_dir\" -ItemType Directory | Out-Null",
+        "   New-item \"$persist_dir\\user\" -ItemType Directory | Out-Null",
+        "   if (Test-Path \"$env:APPDATA\\eglantine\") {",
+        "       Write-host \"Migrating AppData...\" -ForegroundColor yellow",
+        "       Copy-Item -Path \"$env:APPDATA\\eglantine\\*\" -Destination \"$persist_dir\\user\" -Recurse",
+        "       Remove-Item -Path \"$env:APPDATA\\eglantine\" -Recurse -Force",
+        "   }",
+        "   if (Test-Path \"$persist_dir\\user\\config\\qt-config.ini\") {",
+        "       (Get-Content -Path \"$persist_dir\\user\\config\\qt-config.ini\" -Encoding UTF8).Replace('check_for_updates\\default=true', 'check_for_updates\\default=false').Replace('check_for_updates=true', 'check_for_updates=false') | Set-Content -Path \"$persist_dir\\user\\config\\qt-config.ini\" -Encoding UTF8",
+        "   } else {",
+        "       New-Item \"$persist_dir\\user\\config\" -ItemType Directory -Force | Out-Null",
+        "       '[UI]', 'check_for_updates\\default=false', 'check_for_updates=false' | Set-Content -Path \"$persist_dir\\user\\config\\qt-config.ini\"",
+        "   }",
+        "}"
+    ],
+    "bin": "eglantine.exe",
+    "shortcuts": [
+        [
+            "eglantine.exe",
+            "Eglantine"
+        ]
+    ],
+    "persist": "user",
+    "checkver": {
+        "github": "https://api.github.com/repos/Eglantine-Community/Eglantine/releases/latest",
+        "regex": "v([\\d]+(?:\\.[\\d]+)+(?:-[A-Za-z\\d.-]+)?)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Eglantine-Community/Eglantine/releases/download/v$version/eglantine-windows-x86_64-pgo.zip"
+            }
+        }
+    }
+}
