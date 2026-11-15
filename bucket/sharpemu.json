@@ -1,0 +1,43 @@
+{
+    "version": "0.0.7-pulse",
+    "description": "Experimental PlayStation 5 emulator",
+    "homepage": "https://sharpemu.app/",
+    "license": {
+        "identifier": "GPL-2.0-or-later",
+        "url": "https://github.com/sharpemu/sharpemu/blob/main/LICENSE.txt"
+    },
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/sharpemu/sharpemu/releases/download/v0.0.7-pulse/sharpemu-0.0.7-pulse-win-x64.zip",
+            "hash": "3ab0ac49f2401dc8aa73ec671e6c83fb7785f7aacbaedc194de15c2bc4d0733c"
+        }
+    },
+    "pre_install": [
+        "if (!(Test-Path \"$persist_dir\")) {",
+        "   New-Item \"$persist_dir\" -ItemType Directory | Out-Null",
+        "   '{ \"CheckForUpdatesOnStartup\": false }' | Set-Content -Path \"$persist_dir\\gui-settings.json\"",
+        "}"
+    ],
+    "bin": "SharpEmu.exe",
+    "shortcuts": [
+        [
+            "SharpEmu.exe",
+            "SharpEmu"
+        ]
+    ],
+    "persist": [
+        "user",
+        "gui-settings.json"
+    ],
+    "checkver": {
+        "github": "https://api.github.com/repos/sharpemu/sharpemu/releases/latest",
+        "regex": "v([\\d]+(?:\\.[\\d]+)+(?:-[A-Za-z\\d.-]+)?)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/sharpemu/sharpemu/releases/download/v$version/sharpemu-$version-win-x64.zip"
+            }
+        }
+    }
+}
